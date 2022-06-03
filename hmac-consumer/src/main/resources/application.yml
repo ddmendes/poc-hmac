@@ -1,0 +1,15 @@
+server:
+    port: 8080
+
+credentials:
+    hmac-key: "v6BOcPnaWpIzdMndUcoFdRCsnfzxBXlWLvNsXbZHXjWQGAKtKFfBvUmRXFhP"
+
+feign:
+    client:
+        config:
+            resourceclient:
+                connectTimeout: 5000
+                readTimeout: 5000
+                loggerLevel: full
+                requestInterceptors:
+                    - com.example.consumer.hmacconsumer.configuration.HmacInterceptor
