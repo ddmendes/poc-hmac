@@ -19,16 +19,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-            .antMatchers("/v1/public/*")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(hmacAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .authorizeRequests()
+                .antMatchers("/v1/public/*")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(hmacAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

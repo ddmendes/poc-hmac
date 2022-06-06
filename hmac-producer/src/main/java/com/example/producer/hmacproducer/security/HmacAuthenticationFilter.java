@@ -14,7 +14,6 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -46,7 +45,7 @@ public class HmacAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-        throws AuthenticationException, IOException, ServletException {
+            throws AuthenticationException, IOException, ServletException {
         String requestHmac = getHmacDigest(request);
         log.debug("Request HMAC: " + requestHmac);
         String data = getHmacBaseMessage(request);
@@ -54,8 +53,9 @@ public class HmacAuthenticationFilter extends AbstractAuthenticationProcessingFi
         String expectedHmac = calculateHmac(data);
         log.debug("Expected HMAC: " + expectedHmac);
         Authentication token = new PreAuthenticatedAuthenticationToken(requestHmac,
-            new Principal(requestHmac, expectedHmac),
-            Collections.singleton(new SimpleGrantedAuthority("Jedi")));
+                new Principal(requestHmac, expectedHmac),
+                Collections.singleton(new SimpleGrantedAuthority("Jedi"))
+        );
         token = getAuthenticationManager().authenticate(token);
         return token;
     }
@@ -73,11 +73,11 @@ public class HmacAuthenticationFilter extends AbstractAuthenticationProcessingFi
         String contentType = request.getHeader(HttpHeaders.CONTENT_TYPE);
         String timestamp = request.getHeader(HttpHeaders.DATE);
         return new StringBuilder()
-            .append(verb).append("\n")
-            .append(contentType)
+                .append(verb).append("\n")
+                .append(contentType)
 //            .append("\n")
 //            .append(timestamp)
-            .toString();
+                .toString();
     }
 
     private String calculateHmac(String data) {
@@ -93,10 +93,8 @@ public class HmacAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-        Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+                                            Authentication authResult) throws IOException, ServletException {
         SecurityContextHolder.getContext().setAuthentication(authResult);
-        chain.doFilter(request, response);
     }
 
     @Getter
@@ -110,7 +108,7 @@ public class HmacAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
         @Override
         public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-            Principal principal = (Principal) authentication.getPrincipal();
+            Principal principal = (Principal) authentication.getCredentials();
             if (!principal.getExpectedHmac().equals(principal.getRequestHmac())) {
                 throw new BadCredentialsException("Invalid token");
             }

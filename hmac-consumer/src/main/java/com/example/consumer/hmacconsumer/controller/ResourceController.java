@@ -18,7 +18,6 @@ public class ResourceController {
 
     @GetMapping("/{resourceId}")
     public ResourceDto getResourceById(@PathVariable String resourceId) {
-        System.out.println("xablau");
         return resourceClient.getResourceById(resourceId);
     }
 }
