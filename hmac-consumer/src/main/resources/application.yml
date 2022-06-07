@@ -7,7 +7,7 @@ credentials:
 feign:
     client:
         config:
-            resourceclient:
+            resourceClient:
                 connectTimeout: 5000
                 readTimeout: 5000
                 loggerLevel: full

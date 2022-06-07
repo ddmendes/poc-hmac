@@ -53,7 +53,7 @@ public class HmacInterceptor implements RequestInterceptor {
 
         StringBuilder authorization = new StringBuilder();
         authorization.append(HMAC_TOKEN_TYPE).append(" ").append(hmacToken);
-        log.debug("HMAC token" + authorization.toString());
+        log.debug("HMAC token " + authorization.toString());
         requestTemplate.header(HttpHeaders.AUTHORIZATION, authorization.toString());
     }
 
