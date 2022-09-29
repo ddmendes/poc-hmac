@@ -11,9 +11,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-            .antMatchers("/v1/consumer/**")
-            .permitAll();
+                .authorizeRequests()
+                .antMatchers("/v1/consumer/**")
+                .permitAll();
         return http.build();
     }
 }
